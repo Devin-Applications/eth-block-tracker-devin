@@ -454,6 +454,7 @@ describe('PollingBlockTracker', () => {
         async ({ blockTracker }) => {
           jest.spyOn(console, 'error').mockImplementation(EMPTY_FUNCTION);
 
+          // Intentionally not awaited
           blockTracker.getLatestBlock();
           await new Promise((resolve) => {
             blockTracker.on('_waitingForNextIteration', resolve);
@@ -489,6 +490,7 @@ describe('PollingBlockTracker', () => {
         async ({ blockTracker }) => {
           jest.spyOn(console, 'error').mockImplementation(EMPTY_FUNCTION);
 
+          // Intentionally not awaited
           blockTracker.getLatestBlock();
           await new Promise((resolve) => {
             blockTracker.on('_waitingForNextIteration', resolve);
@@ -524,6 +526,7 @@ describe('PollingBlockTracker', () => {
         async ({ blockTracker }) => {
           jest.spyOn(console, 'error').mockImplementation(EMPTY_FUNCTION);
 
+          // Intentionally not awaited
           blockTracker.getLatestBlock();
           await new Promise((resolve) => {
             blockTracker.on('_waitingForNextIteration', resolve);
@@ -557,6 +560,7 @@ describe('PollingBlockTracker', () => {
         async ({ blockTracker }) => {
           jest.spyOn(console, 'error').mockImplementation(EMPTY_FUNCTION);
 
+          // Intentionally not awaited
           blockTracker.getLatestBlock();
           await new Promise((resolve) => {
             blockTracker.on('_waitingForNextIteration', resolve);
