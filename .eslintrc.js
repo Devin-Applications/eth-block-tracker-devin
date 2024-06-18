@@ -8,7 +8,7 @@ module.exports = {
       files: ['*.ts'],
       extends: ['@metamask/eslint-config-typescript'],
       parserOptions: {
-        project: './eth-block-tracker-devin/tsconfig.json',
+        project: './tsconfig.json',
       },
       rules: {
         '@typescript-eslint/consistent-type-definitions': 'off',
