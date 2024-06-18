@@ -24,17 +24,11 @@ jobs:
         run: yarn set version berry
       - name: Get Yarn version
         run: yarn --version
-      - name: Get Yarn cache directory
-        run: echo "YARN_CACHE_DIR=$(yarn config get cacheFolder)" >> $GITHUB_ENV
-        id: yarn-cache-dir
-      - name: Get Yarn version
-        run: echo "YARN_VERSION=$(yarn --version)" >> $GITHUB_ENV
-        id: yarn-version
       - name: Cache yarn dependencies
         uses: actions/cache@v3
         with:
-          path: ${{ env.YARN_CACHE_DIR }}
-          key: yarn-cache-${{ runner.os }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
+          path: .yarn/cache
+          key: yarn-cache-${{ runner.os }}-${{ matrix.node-version }}-${{ hashFiles('yarn.lock') }}
       - run: yarn install --immutable
       - run: yarn allow-scripts
       - run: yarn build
@@ -52,7 +46,7 @@ jobs:
           if ! git diff --exit-code; then
             echo "Working tree dirty after building"
             exit 1
-          fi
+
   all-jobs-pass:
     name: All jobs pass
     runs-on: ubuntu-20.04
