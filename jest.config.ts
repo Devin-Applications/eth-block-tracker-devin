@@ -127,12 +127,12 @@ const config: Config.InitialOptions = {
   restoreMocks: true,
 
   // The root directory that Jest should scan for tests and modules within
-  rootDir: '<rootDir>',
+  rootDir: '.',
 
   // A list of paths to directories that Jest should use to search for files in
-  // roots: [
-  //   "<rootDir>"
-  // ],
+  roots: [
+    "<rootDir>"
+  ],
 
   // Allows you to use a custom runner instead of Jest's default test runner
   // runner: "jest-runner",
