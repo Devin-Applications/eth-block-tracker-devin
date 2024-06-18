@@ -22,6 +22,8 @@ jobs:
         run: corepack enable
       - name: Set Yarn version to 4.3.0
         run: yarn set version berry
+      - name: Unset cacheDir environment variable
+        run: unset cacheDir
       - name: Get Yarn cache directory
         run: echo "YARN_CACHE_DIR=$(yarn config get cacheFolder)" >> $GITHUB_ENV
         id: yarn-cache-dir
