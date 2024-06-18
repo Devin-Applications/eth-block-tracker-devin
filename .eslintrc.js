@@ -4,6 +4,7 @@ module.exports = {
   extends: ['@metamask/eslint-config'],
 
   parserOptions: {
+    tsconfigRootDir: __dirname,
     project: './tsconfig.json',
   },
 
