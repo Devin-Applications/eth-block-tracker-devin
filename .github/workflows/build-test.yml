@@ -21,6 +21,8 @@ jobs:
           cache: 'yarn'
       - name: Enable Corepack
         run: corepack enable
+      - name: Verify Corepack is enabled
+        run: corepack --version
       - name: Set Yarn version to berry
         run: yarn set version berry
       - name: Print Yarn version
