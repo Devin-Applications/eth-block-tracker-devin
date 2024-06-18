@@ -14,6 +14,12 @@ jobs:
         node-version: [18.x, 20.x, 22.x]
     steps:
       - uses: actions/checkout@v3
+      - name: Get Yarn cache directory
+        run: echo "YARN_CACHE_DIR=$(yarn cache dir)" >> $GITHUB_ENV
+        id: yarn-cache-dir
+      - name: Get Yarn version
+        run: echo "YARN_VERSION=$(yarn --version)" >> $GITHUB_ENV
+        id: yarn-version
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
@@ -22,12 +28,6 @@ jobs:
         run: corepack enable
       - name: Set Yarn version to 4.3.0
         run: yarn set version 4.3.0
-      - name: Get Yarn cache directory
-        run: echo "YARN_CACHE_DIR=$(yarn cache dir)" >> $GITHUB_ENV
-        id: yarn-cache-dir
-      - name: Get Yarn version
-        run: echo "YARN_VERSION=$(yarn --version)" >> $GITHUB_ENV
-        id: yarn-version
       - name: Cache yarn dependencies
         uses: actions/cache@v2
         with:
