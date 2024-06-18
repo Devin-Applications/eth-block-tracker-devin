@@ -119,30 +119,30 @@ export class SubscribeBlockTracker
     return this;
   }
 
-  private _setupInternalEvents(): void {
+  private _setupInternalEvents = (): void => {
     // first remove listeners for idempotence
     this.removeListener('newListener', this._onNewListener);
     this.removeListener('removeListener', this._onRemoveListener);
     // then add them
     this.on('newListener', this._onNewListener);
     this.on('removeListener', this._onRemoveListener);
-  }
+  };
 
-  private _onNewListener(eventName: string | symbol): void {
+  private _onNewListener = (eventName: string | symbol): void => {
     // `newListener` is called *before* the listener is added
     if (blockTrackerEvents.includes(eventName)) {
       // TODO: Handle dangling promise
-      this._maybeStart();
+      void this._maybeStart();
     }
-  }
+  };
 
-  private _onRemoveListener(): void {
+  private _onRemoveListener = (): void => {
     // `removeListener` is called *after* the listener is removed
     if (this._getBlockTrackerEventCount() > 0) {
       return;
     }
-    this._maybeEnd();
-  }
+    void this._maybeEnd();
+  };
 
   private async _maybeStart(): Promise<void> {
     if (this._isRunning) {
@@ -185,21 +185,21 @@ export class SubscribeBlockTracker
     );
   }
 
-  private _newPotentialLatest(newBlock: string): void {
+  private _newPotentialLatest = (newBlock: string): void => {
     if (!this._shouldUseNewBlock(newBlock)) {
       return;
     }
     this._setCurrentBlock(newBlock);
-  }
+  };
 
-  private _setCurrentBlock(newBlock: string): void {
+  private _setCurrentBlock = (newBlock: string): void => {
     const oldBlock = this._currentBlock;
     this._currentBlock = newBlock;
     this.emit('latest', newBlock);
     this.emit('sync', { oldBlock, newBlock });
-  }
+  };
 
-  private _setupBlockResetTimeout(): void {
+  private _setupBlockResetTimeout = (): void => {
     // clear any existing timeout
     this._cancelBlockResetTimeout();
     // clear latest block when stale
@@ -212,17 +212,17 @@ export class SubscribeBlockTracker
     if (this._blockResetTimeout.unref) {
       this._blockResetTimeout.unref();
     }
-  }
+  };
 
-  private _cancelBlockResetTimeout(): void {
+  private _cancelBlockResetTimeout = (): void => {
     if (this._blockResetTimeout) {
       clearTimeout(this._blockResetTimeout);
     }
-  }
+  };
 
-  private _resetCurrentBlock(): void {
+  private _resetCurrentBlock = (): void => {
     this._currentBlock = null;
-  }
+  };
 
   async checkForLatestBlock(): Promise<string> {
     return await this.getLatestBlock();
@@ -236,7 +236,7 @@ export class SubscribeBlockTracker
           'eth_subscribe',
           'newHeads',
         )) as string;
-        this._provider.on('data', this._handleSubData.bind(this));
+        this._provider.on('data', this._handleSubData);
         this._newPotentialLatest(blockNumber);
       } catch (e) {
         this.emit('error', e);
@@ -244,7 +244,7 @@ export class SubscribeBlockTracker
     }
   }
 
-  private async _end() {
+  private async _end(): Promise<void> {
     if (this._subscriptionId !== null && this._subscriptionId !== undefined) {
       try {
         await this._call('eth_unsubscribe', this._subscriptionId);
@@ -275,10 +275,10 @@ export class SubscribeBlockTracker
     });
   }
 
-  private _handleSubData(
+  private _handleSubData = (
     _: unknown,
     response: JsonRpcNotification<SubscriptionNotificationParams>,
-  ): void {
+  ): void => {
     if (
       response.method === 'eth_subscription' &&
       response.params?.subscription === this._subscriptionId
