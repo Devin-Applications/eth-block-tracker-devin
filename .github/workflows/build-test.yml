@@ -24,14 +24,10 @@ jobs:
         run: corepack prepare yarn@4.3.0 --activate
       - name: Get Yarn cache directory
         run: |
-          corepack enable
-          corepack prepare yarn@4.3.0 --activate
           echo "YARN_CACHE_DIR=$(yarn config get cacheFolder)" >> $GITHUB_ENV
         id: yarn-cache-dir
       - name: Get Yarn version
         run: |
-          corepack enable
-          corepack prepare yarn@4.3.0 --activate
           echo "YARN_VERSION=$(yarn --version)" >> $GITHUB_ENV
         id: yarn-version
       - name: Cache yarn dependencies
@@ -40,42 +36,18 @@ jobs:
           path: ${{ env.YARN_CACHE_DIR }}
           key: yarn-cache-${{ runner.os }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
       - name: Print Yarn configuration
-        run: |
-          corepack enable
-          corepack prepare yarn@4.3.0 --activate
-          yarn config list
-      - run: |
-          corepack enable
-          corepack prepare yarn@4.3.0 --activate
-          yarn install --immutable
-      - run: |
-          corepack enable
-          corepack prepare yarn@4.3.0 --activate
-          yarn allow-scripts
-      - run: |
-          corepack enable
-          corepack prepare yarn@4.3.0 --activate
-          yarn build
-      - run: |
-          corepack enable
-          corepack prepare yarn@4.3.0 --activate
-          yarn lint
-      - run: |
-          corepack enable
-          corepack prepare yarn@4.3.0 --activate
-          yarn test
+        run: yarn config list
+      - run: yarn install --immutable
+      - run: yarn allow-scripts
+      - run: yarn build
+      - run: yarn lint
+      - run: yarn test
       - name: Validate RC changelog
         if: ${{ startsWith(github.head_ref, 'release/') }}
-        run: |
-          corepack enable
-          corepack prepare yarn@4.3.0 --activate
-          yarn auto-changelog validate --rc
+        run: yarn auto-changelog validate --rc
       - name: Validate changelog
         if: ${{ !startsWith(github.head_ref, 'release/') }}
-        run: |
-          corepack enable
-          corepack prepare yarn@4.3.0 --activate
-          yarn auto-changelog validate
+        run: yarn auto-changelog validate
       - name: Require clean working directory
         shell: bash
         run: |
