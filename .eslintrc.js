@@ -4,7 +4,7 @@ module.exports = {
   extends: ['@metamask/eslint-config'],
 
   parserOptions: {
-    project: './eth-block-tracker-devin/tsconfig.json',
+    project: './tsconfig.json',
   },
 
   overrides: [
