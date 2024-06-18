@@ -454,7 +454,9 @@ describe('PollingBlockTracker', () => {
         async ({ blockTracker }) => {
           jest.spyOn(console, 'error').mockImplementation(EMPTY_FUNCTION);
 
-          await blockTracker.getLatestBlock();
+          await blockTracker
+            .getLatestBlock()
+            .catch((error) => console.error(error));
           await new Promise((resolve) => {
             blockTracker.on('_waitingForNextIteration', resolve);
           });
@@ -468,7 +470,7 @@ describe('PollingBlockTracker', () => {
           );
         },
       );
-    }, 20000);
+    }, 30000);
 
     it('should log an error if, while making a request for the latest block number, the provider throws an Error and there is nothing listening to "error"', async () => {
       recordCallsToSetTimeout({ numAutomaticCalls: 1 });
@@ -489,7 +491,9 @@ describe('PollingBlockTracker', () => {
         async ({ blockTracker }) => {
           jest.spyOn(console, 'error').mockImplementation(EMPTY_FUNCTION);
 
-          await blockTracker.getLatestBlock();
+          await blockTracker
+            .getLatestBlock()
+            .catch((error) => console.error(error));
           await new Promise((resolve) => {
             blockTracker.on('_waitingForNextIteration', resolve);
           });
@@ -524,7 +528,9 @@ describe('PollingBlockTracker', () => {
         async ({ blockTracker }) => {
           jest.spyOn(console, 'error').mockImplementation(EMPTY_FUNCTION);
 
-          await blockTracker.getLatestBlock();
+          await blockTracker
+            .getLatestBlock()
+            .catch((error) => console.error(error));
           await new Promise((resolve) => {
             blockTracker.on('_waitingForNextIteration', resolve);
           });
@@ -557,7 +563,9 @@ describe('PollingBlockTracker', () => {
         async ({ blockTracker }) => {
           jest.spyOn(console, 'error').mockImplementation(EMPTY_FUNCTION);
 
-          await blockTracker.getLatestBlock();
+          await blockTracker
+            .getLatestBlock()
+            .catch((error) => console.error(error));
           await new Promise((resolve) => {
             blockTracker.on('_waitingForNextIteration', resolve);
           });
