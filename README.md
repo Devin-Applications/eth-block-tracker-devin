@@ -10,6 +10,18 @@ or
 
 `npm install @metamask/eth-block-tracker`
 
+### Yarn Setup
+
+- Ensure you have Yarn v4 installed. You can install it by running:
+
+  ```sh
+  corepack enable
+  yarn set version berry
+  ```
+
+- Run `yarn setup` to install dependencies and run any required post-install scripts.
+  - **Warning:** Do not use the `yarn` / `yarn install` command directly. Use `yarn setup` instead. The normal install command will skip required post-install scripts, leaving your development environment in an invalid state.
+
 ## Usage
 
 ```js
