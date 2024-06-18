@@ -14,9 +14,6 @@ jobs:
         node-version: [18.x, 20.x, 22.x]
     steps:
       - uses: actions/checkout@v3
-      - name: Get Yarn version
-        run: echo "YARN_VERSION=$(yarn --version)" >> $GITHUB_ENV
-        id: yarn-version
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
@@ -24,15 +21,15 @@ jobs:
           cache: 'yarn'
       - name: Enable Corepack
         run: corepack enable
-      - name: Set Yarn version to 4.3.0
-        run: yarn set version 4.3.0
+      - name: Set Yarn version to berry
+        run: yarn set version berry
       - name: Print Yarn version
         run: yarn --version
       - name: Cache yarn dependencies
         uses: actions/cache@v2
         with:
           path: ~/.yarn/cache
-          key: yarn-cache-${{ runner.os }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
+          key: yarn-cache-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
       - run: yarn --immutable
