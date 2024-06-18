@@ -4,6 +4,14 @@ This module walks the Ethereum blockchain, keeping track of the latest block. It
 
 ## Installation
 
+To install the latest version of Yarn (v4.3.0), run the following command:
+
+```sh
+yarn set version 4.3.0
+```
+
+For more information, visit the [Yarn installation guide](https://yarnpkg.com/getting-started/install).
+
 `yarn add @metamask/eth-block-tracker`
 
 or
@@ -92,8 +100,8 @@ blockTracker.on('error', (err) => console.error(err));
 
 - Install the current LTS version of [Node.js](https://nodejs.org)
   - If you are using [nvm](https://github.com/creationix/nvm#installation) (recommended) running `nvm use` will automatically choose the right node version for you.
-- Install [Yarn v1](https://yarnpkg.com/en/docs/install)
-- Run `yarn setup` to install dependencies and run any requried post-install scripts
+- Install [Yarn v4.3.0](https://yarnpkg.com/getting-started/install)
+- Run `yarn setup` to install dependencies and run any required post-install scripts
   - **Warning:** Do not use the `yarn` / `yarn install` command directly. Use `yarn setup` instead. The normal install command will skip required post-install scripts, leaving your development environment in an invalid state.
 
 ### Testing and Linting
