@@ -7,6 +7,9 @@ module.exports = {
     {
       files: ['*.ts'],
       extends: ['@metamask/eslint-config-typescript'],
+      parserOptions: {
+        project: './tsconfig.json',
+      },
       rules: {
         '@typescript-eslint/consistent-type-definitions': 'off',
         '@typescript-eslint/naming-convention': 'off',
