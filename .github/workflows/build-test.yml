@@ -15,6 +15,8 @@ jobs:
     steps:
       - name: Enable Corepack
         run: corepack enable
+      - name: Set Yarn version to 4.3.0
+        run: corepack prepare yarn@4.3.0 --activate
       - name: Check Corepack status
         run: corepack --version
       - uses: actions/checkout@v3
@@ -22,21 +24,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Set Yarn version to 4.3.0
-        run: corepack prepare yarn@4.3.0 --activate
-      - name: Get Yarn cache directory
-        run: |
-          echo "YARN_CACHE_DIR=$(yarn config get cacheFolder)" >> $GITHUB_ENV
-        id: yarn-cache-dir
-      - name: Get Yarn version
-        run: |
-          echo "YARN_VERSION=$(yarn --version)" >> $GITHUB_ENV
-        id: yarn-version
+      - name: Print Yarn version
+        run: yarn --version
       - name: Cache yarn dependencies
         uses: actions/cache@v2
         with:
           path: ${{ env.YARN_CACHE_DIR }}
-          key: yarn-cache-${{ runner.os }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
+          key: yarn-cache-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
       - name: Print Yarn configuration
         run: yarn config list
       - run: yarn install --immutable
