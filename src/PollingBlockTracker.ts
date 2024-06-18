@@ -140,22 +140,6 @@ export class PollingBlockTracker
     this.on('removeListener', this._onRemoveListener);
   }
 
-  private _onNewListener(eventName: string | symbol): void {
-    // `newListener` is called *before* the listener is added
-    if (blockTrackerEvents.includes(eventName)) {
-      // TODO: Handle dangling promise
-      this._maybeStart();
-    }
-  }
-
-  private _onRemoveListener(): void {
-    // `removeListener` is called *after* the listener is removed
-    if (this._getBlockTrackerEventCount() > 0) {
-      return;
-    }
-    this._maybeEnd();
-  }
-
   private _maybeStart() {
     if (this._isRunning) {
       return;
@@ -232,10 +216,6 @@ export class PollingBlockTracker
     if (this._blockResetTimeout) {
       clearTimeout(this._blockResetTimeout);
     }
-  }
-
-  private _resetCurrentBlock(): void {
-    this._currentBlock = null;
   }
 
   // trigger block polling
@@ -334,6 +314,25 @@ export class PollingBlockTracker
       this._pollingTimeout = undefined;
     }
   }
+
+  private readonly _onNewListener = (eventName: string | symbol): void => {
+    // `newListener` is called *before* the listener is added
+    if (blockTrackerEvents.includes(eventName)) {
+      this._maybeStart();
+    }
+  };
+
+  private readonly _onRemoveListener = (): void => {
+    // `removeListener` is called *after* the listener is removed
+    if (this._getBlockTrackerEventCount() > 0) {
+      return;
+    }
+    this._maybeEnd();
+  };
+
+  private readonly _resetCurrentBlock = (): void => {
+    this._currentBlock = null;
+  };
 }
 
 /**

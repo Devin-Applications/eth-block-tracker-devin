@@ -3,6 +3,11 @@ module.exports = {
 
   extends: ['@metamask/eslint-config'],
 
+  parserOptions: {
+    tsconfigRootDir: __dirname,
+    project: './tsconfig.json',
+  },
+
   overrides: [
     {
       files: ['*.ts'],
@@ -20,6 +25,7 @@ module.exports = {
         'no-restricted-syntax': 'off',
         '@typescript-eslint/no-invalid-this': ['error'],
         '@typescript-eslint/restrict-template-expressions': 'off',
+        'no-void': 'off', // Disable the no-void rule
       },
     },
 
@@ -38,6 +44,7 @@ module.exports = {
         'id-denylist': 'off',
         'import/no-nodejs-modules': 'off',
         'no-restricted-globals': 'off',
+        'no-void': 'off', // Disable the no-void rule for test files
       },
     },
   ],

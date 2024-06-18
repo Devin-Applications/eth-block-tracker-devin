@@ -10,6 +10,13 @@ or
 
 `npm install @metamask/eth-block-tracker`
 
+**Note:** This project now uses Yarn v4. Ensure you have Yarn v4 installed by running:
+
+```sh
+corepack enable
+yarn set version berry
+```
+
 ## Usage
 
 ```js

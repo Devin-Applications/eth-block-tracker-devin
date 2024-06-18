@@ -128,43 +128,6 @@ export class SubscribeBlockTracker
     this.on('removeListener', this._onRemoveListener);
   }
 
-  private _onNewListener(eventName: string | symbol): void {
-    // `newListener` is called *before* the listener is added
-    if (blockTrackerEvents.includes(eventName)) {
-      // TODO: Handle dangling promise
-      this._maybeStart();
-    }
-  }
-
-  private _onRemoveListener(): void {
-    // `removeListener` is called *after* the listener is removed
-    if (this._getBlockTrackerEventCount() > 0) {
-      return;
-    }
-    this._maybeEnd();
-  }
-
-  private async _maybeStart(): Promise<void> {
-    if (this._isRunning) {
-      return;
-    }
-    this._isRunning = true;
-    // cancel setting latest block to stale
-    this._cancelBlockResetTimeout();
-    await this._start();
-    this.emit('_started');
-  }
-
-  private async _maybeEnd(): Promise<void> {
-    if (!this._isRunning) {
-      return;
-    }
-    this._isRunning = false;
-    this._setupBlockResetTimeout();
-    await this._end();
-    this.emit('_ended');
-  }
-
   private _getBlockTrackerEventCount(): number {
     return blockTrackerEvents
       .map((eventName) => this.listenerCount(eventName))
@@ -218,10 +181,6 @@ export class SubscribeBlockTracker
     if (this._blockResetTimeout) {
       clearTimeout(this._blockResetTimeout);
     }
-  }
-
-  private _resetCurrentBlock(): void {
-    this._currentBlock = null;
   }
 
   async checkForLatestBlock(): Promise<string> {
@@ -285,6 +244,47 @@ export class SubscribeBlockTracker
     ) {
       this._newPotentialLatest(response.params.result.number);
     }
+  }
+
+  private readonly _onNewListener = (eventName: string | symbol): void => {
+    // `newListener` is called *before* the listener is added
+    if (blockTrackerEvents.includes(eventName)) {
+      // TODO: Handle dangling promise
+      void this._maybeStart();
+    }
+  };
+
+  private readonly _onRemoveListener = (): void => {
+    // `removeListener` is called *after* the listener is removed
+    if (this._getBlockTrackerEventCount() > 0) {
+      return;
+    }
+    void this._maybeEnd();
+  };
+
+  private readonly _resetCurrentBlock = (): void => {
+    this._currentBlock = null;
+  };
+
+  private async _maybeStart(): Promise<void> {
+    if (this._isRunning) {
+      return;
+    }
+    this._isRunning = true;
+    // cancel setting latest block to stale
+    this._cancelBlockResetTimeout();
+    await this._start();
+    this.emit('_started');
+  }
+
+  private async _maybeEnd(): Promise<void> {
+    if (!this._isRunning) {
+      return;
+    }
+    this._isRunning = false;
+    this._setupBlockResetTimeout();
+    await this._end();
+    this.emit('_ended');
   }
 }
 

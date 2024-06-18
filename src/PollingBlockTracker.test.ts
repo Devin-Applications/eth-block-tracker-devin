@@ -454,7 +454,8 @@ describe('PollingBlockTracker', () => {
         async ({ blockTracker }) => {
           jest.spyOn(console, 'error').mockImplementation(EMPTY_FUNCTION);
 
-          blockTracker.getLatestBlock();
+          // Intentionally not awaited
+          void blockTracker.getLatestBlock();
           await new Promise((resolve) => {
             blockTracker.on('_waitingForNextIteration', resolve);
           });
@@ -489,7 +490,8 @@ describe('PollingBlockTracker', () => {
         async ({ blockTracker }) => {
           jest.spyOn(console, 'error').mockImplementation(EMPTY_FUNCTION);
 
-          blockTracker.getLatestBlock();
+          // Intentionally not awaited
+          void blockTracker.getLatestBlock();
           await new Promise((resolve) => {
             blockTracker.on('_waitingForNextIteration', resolve);
           });
@@ -524,7 +526,8 @@ describe('PollingBlockTracker', () => {
         async ({ blockTracker }) => {
           jest.spyOn(console, 'error').mockImplementation(EMPTY_FUNCTION);
 
-          blockTracker.getLatestBlock();
+          // Intentionally not awaited
+          void blockTracker.getLatestBlock();
           await new Promise((resolve) => {
             blockTracker.on('_waitingForNextIteration', resolve);
           });
@@ -557,7 +560,8 @@ describe('PollingBlockTracker', () => {
         async ({ blockTracker }) => {
           jest.spyOn(console, 'error').mockImplementation(EMPTY_FUNCTION);
 
-          blockTracker.getLatestBlock();
+          // Intentionally not awaited
+          void blockTracker.getLatestBlock();
           await new Promise((resolve) => {
             blockTracker.on('_waitingForNextIteration', resolve);
           });
@@ -660,7 +664,7 @@ describe('PollingBlockTracker', () => {
           },
         },
         async ({ blockTracker }) => {
-          blockTracker.checkForLatestBlock();
+          void blockTracker.checkForLatestBlock();
           await new Promise((resolve) => {
             blockTracker.on('latest', resolve);
           });
