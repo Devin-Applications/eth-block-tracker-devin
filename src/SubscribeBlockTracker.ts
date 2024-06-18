@@ -66,6 +66,7 @@ export class SubscribeBlockTracker
     this._onNewListener = this._onNewListener.bind(this);
     this._onRemoveListener = this._onRemoveListener.bind(this);
     this._resetCurrentBlock = this._resetCurrentBlock.bind(this);
+    this._handleSubData = this._handleSubData.bind(this);
 
     // listen for handler changes
     this._setupInternalEvents();
@@ -236,7 +237,7 @@ export class SubscribeBlockTracker
           'eth_subscribe',
           'newHeads',
         )) as string;
-        this._provider.on('data', this._handleSubData.bind(this));
+        this._provider.on('data', this._handleSubData);
         this._newPotentialLatest(blockNumber);
       } catch (e) {
         this.emit('error', e);
