@@ -74,6 +74,5 @@
     "allowScripts": {
       "@lavamoat/preinstall-always-fail": false
     }
-  },
-  "packageManager": "yarn@4.3.0"
+  }
 }
