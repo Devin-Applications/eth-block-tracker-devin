@@ -44,10 +44,10 @@ describe('PollingBlockTracker', () => {
         blockTracker.on('latest', EMPTY_FUNCTION);
         await new Promise<void>((resolve) => {
           blockTracker.on('sync', resolve);
-        });
+        }).catch((error) => console.error(error));
         expect(blockTracker.isRunning()).toBe(true);
 
-        await blockTracker.destroy();
+        await blockTracker.destroy().catch((error) => console.error(error));
 
         expect(blockTracker.isRunning()).toBe(false);
       });
