@@ -14,9 +14,6 @@ jobs:
         node-version: [18.x, 20.x, 22.x]
     steps:
       - uses: actions/checkout@v3
-      - name: Get Yarn cache directory
-        run: echo "YARN_CACHE_DIR=$(yarn cache dir)" >> $GITHUB_ENV
-        id: yarn-cache-dir
       - name: Get Yarn version
         run: echo "YARN_VERSION=$(yarn --version)" >> $GITHUB_ENV
         id: yarn-version
@@ -33,7 +30,7 @@ jobs:
       - name: Cache yarn dependencies
         uses: actions/cache@v2
         with:
-          path: ${{ env.YARN_CACHE_DIR }}
+          path: .yarn/cache
           key: yarn-cache-${{ runner.os }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
       - run: yarn --immutable
       - run: yarn allow-scripts
