@@ -13,9 +13,9 @@ jobs:
       matrix:
         node-version: [18.x, 20.x, 22.x]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
       - name: Enable Corepack
@@ -31,8 +31,8 @@ jobs:
       - name: Cache yarn dependencies
         uses: actions/cache@v3
         with:
-          path: ${{ env.YARN_CACHE_DIR }}
-          key: yarn-cache-${{ runner.os }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
+          path: ${{ steps.yarn-cache-dir.outputs.YARN_CACHE_DIR }}
+          key: yarn-cache-${{ runner.os }}-${{ steps.yarn-version.outputs.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
       - run: yarn install --immutable
       - run: yarn allow-scripts
       - run: yarn build
