@@ -41,8 +41,8 @@ describe('PollingBlockTracker', () => {
       recordCallsToSetTimeout();
 
       await withPollingBlockTracker(async ({ blockTracker }) => {
-        blockTracker.on('latest', function (this: void) {});
-        await new Promise<undefined>((resolve) => {
+        blockTracker.on('latest', function (this: undefined) {});
+        await new Promise<void>((resolve) => {
           blockTracker.on('sync', resolve);
         });
         expect(blockTracker.isRunning()).toBe(true);
@@ -76,8 +76,8 @@ describe('PollingBlockTracker', () => {
         },
         async ({ blockTracker }) => {
           blockTracker.on('latest', EMPTY_FUNCTION);
-          blockTracker.on('sync', function (this: void) {});
-          await new Promise<undefined>((resolve) => {
+          blockTracker.on('sync', function (this: undefined) {});
+          await new Promise<void>((resolve) => {
             blockTracker.on('_waitingForNextIteration', resolve);
           });
           expect(blockTracker.getCurrentBlock()).toBe('0x0');
@@ -127,8 +127,8 @@ describe('PollingBlockTracker', () => {
         },
         async ({ blockTracker }) => {
           blockTracker.on('latest', EMPTY_FUNCTION);
-          blockTracker.on('sync', function (this: void) {});
-          await new Promise<undefined>((resolve) => {
+          blockTracker.on('sync', function (this: undefined) {});
+          await new Promise<void>((resolve) => {
             blockTracker.on('_waitingForNextIteration', resolve);
           });
           expect(blockTracker.getCurrentBlock()).toBe('0x0');
