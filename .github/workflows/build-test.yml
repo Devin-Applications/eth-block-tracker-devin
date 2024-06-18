@@ -21,6 +21,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
           cache-dependency-path: yarn.lock
+          corepack: true
       - name: Enable Corepack
         run: corepack enable
       - name: Set Yarn version to 4.3.0
