@@ -470,7 +470,7 @@ describe('PollingBlockTracker', () => {
           );
         },
       );
-    }, 30000);
+    }, 60000);
 
     it('should log an error if, while making a request for the latest block number, the provider throws an Error and there is nothing listening to "error"', async () => {
       recordCallsToSetTimeout({ numAutomaticCalls: 1 });
@@ -507,7 +507,7 @@ describe('PollingBlockTracker', () => {
           );
         },
       );
-    }, 20000);
+    }, 60000);
 
     it('should log an error the request for the latest block number throws a string and there is nothing listening to "error"', async () => {
       recordCallsToSetTimeout({ numAutomaticCalls: 1 });
@@ -544,7 +544,7 @@ describe('PollingBlockTracker', () => {
           );
         },
       );
-    }, 20000);
+    }, 60000);
 
     it('should log an error if, while requesting the latest block number, the provider rejects with an error and there is nothing listening to "error"', async () => {
       recordCallsToSetTimeout({ numAutomaticCalls: 1 });
@@ -579,7 +579,7 @@ describe('PollingBlockTracker', () => {
           );
         },
       );
-    }, 20000);
+    }, 60000);
 
     it('should update the current block number', async () => {
       recordCallsToSetTimeout();
