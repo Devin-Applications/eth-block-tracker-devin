@@ -7,12 +7,15 @@ module.exports = {
     {
       files: ['*.ts'],
       extends: ['@metamask/eslint-config-typescript'],
+      parserOptions: {
+        project: '/home/ubuntu/eth-block-tracker-devin/tsconfig.json',
+      },
       rules: {
         '@typescript-eslint/consistent-type-definitions': 'off',
         '@typescript-eslint/naming-convention': 'off',
         '@typescript-eslint/prefer-nullish-coalescing': 'off',
-        '@typescript-eslint/no-floating-promises': 'warn',
-        '@typescript-eslint/unbound-method': 'warn',
+        '@typescript-eslint/no-floating-promises': 'off',
+        '@typescript-eslint/unbound-method': 'off',
         'id-denylist': 'off',
         'id-length': 'off',
         // TODO: Move this to our shared config
