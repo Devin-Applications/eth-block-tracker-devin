@@ -454,7 +454,9 @@ describe('PollingBlockTracker', () => {
         async ({ blockTracker }) => {
           jest.spyOn(console, 'error').mockImplementation(EMPTY_FUNCTION);
 
-          await blockTracker.getLatestBlock();
+          await blockTracker.getLatestBlock().catch((error) => {
+            console.error('Error fetching latest block:', error);
+          });
           await new Promise((resolve) => {
             blockTracker.on('_waitingForNextIteration', resolve);
           });
@@ -489,7 +491,9 @@ describe('PollingBlockTracker', () => {
         async ({ blockTracker }) => {
           jest.spyOn(console, 'error').mockImplementation(EMPTY_FUNCTION);
 
-          await blockTracker.getLatestBlock();
+          await blockTracker.getLatestBlock().catch((error) => {
+            console.error('Error fetching latest block:', error);
+          });
           await new Promise((resolve) => {
             blockTracker.on('_waitingForNextIteration', resolve);
           });
@@ -524,7 +528,9 @@ describe('PollingBlockTracker', () => {
         async ({ blockTracker }) => {
           jest.spyOn(console, 'error').mockImplementation(EMPTY_FUNCTION);
 
-          await blockTracker.getLatestBlock();
+          await blockTracker.getLatestBlock().catch((error) => {
+            console.error('Error fetching latest block:', error);
+          });
           await new Promise((resolve) => {
             blockTracker.on('_waitingForNextIteration', resolve);
           });
@@ -557,7 +563,9 @@ describe('PollingBlockTracker', () => {
         async ({ blockTracker }) => {
           jest.spyOn(console, 'error').mockImplementation(EMPTY_FUNCTION);
 
-          await blockTracker.getLatestBlock();
+          await blockTracker.getLatestBlock().catch((error) => {
+            console.error('Error fetching latest block:', error);
+          });
           await new Promise((resolve) => {
             blockTracker.on('_waitingForNextIteration', resolve);
           });
@@ -660,7 +668,9 @@ describe('PollingBlockTracker', () => {
           },
         },
         async ({ blockTracker }) => {
-          blockTracker.checkForLatestBlock();
+          blockTracker.checkForLatestBlock().catch((error) => {
+            console.error('Error checking for latest block:', error);
+          });
           await new Promise((resolve) => {
             blockTracker.on('latest', resolve);
           });
