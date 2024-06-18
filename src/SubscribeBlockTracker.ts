@@ -246,25 +246,25 @@ export class SubscribeBlockTracker
     }
   }
 
-  private readonly _onNewListener = (eventName: string | symbol): void => {
+  private _onNewListener(eventName: string | symbol): void {
     // `newListener` is called *before* the listener is added
     if (blockTrackerEvents.includes(eventName)) {
       // TODO: Handle dangling promise
       void this._maybeStart();
     }
-  };
+  }
 
-  private readonly _onRemoveListener = (): void => {
+  private _onRemoveListener(): void {
     // `removeListener` is called *after* the listener is removed
     if (this._getBlockTrackerEventCount() > 0) {
       return;
     }
     void this._maybeEnd();
-  };
+  }
 
-  private readonly _resetCurrentBlock = (): void => {
+  private _resetCurrentBlock(): void {
     this._currentBlock = null;
-  };
+  }
 
   private async _maybeStart(): Promise<void> {
     if (this._isRunning) {
