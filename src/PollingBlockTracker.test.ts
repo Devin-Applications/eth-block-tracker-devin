@@ -660,7 +660,9 @@ describe('PollingBlockTracker', () => {
           },
         },
         async ({ blockTracker }) => {
-          blockTracker.checkForLatestBlock();
+          blockTracker
+            .checkForLatestBlock()
+            .catch((error) => console.error(error));
           await new Promise((resolve) => {
             blockTracker.on('latest', resolve);
           });

@@ -89,7 +89,7 @@ export class PollingBlockTracker
 
   async destroy() {
     this._cancelBlockResetTimeout();
-    this._maybeEnd();
+    await this._maybeEnd();
     super.removeAllListeners();
   }
 
@@ -140,44 +140,42 @@ export class PollingBlockTracker
     this.on('removeListener', this._onRemoveListener);
   }
 
-  private _onNewListener(eventName: string | symbol): void {
+  private readonly _onNewListener = (eventName: string | symbol): void => {
     // `newListener` is called *before* the listener is added
     if (blockTrackerEvents.includes(eventName)) {
       // TODO: Handle dangling promise
-      this._maybeStart();
+      this._maybeStart().catch((error) => console.error(error));
     }
-  }
+  };
 
-  private _onRemoveListener(): void {
+  private readonly _onRemoveListener = (): void => {
     // `removeListener` is called *after* the listener is removed
     if (this._getBlockTrackerEventCount() > 0) {
       return;
     }
-    this._maybeEnd();
-  }
+    this._maybeEnd().catch((error) => console.error(error));
+  };
 
-  private _maybeStart() {
+  private readonly _maybeStart = async (): Promise<void> => {
     if (this._isRunning) {
       return;
     }
-
     this._isRunning = true;
     // cancel setting latest block to stale
     this._cancelBlockResetTimeout();
-    this._start();
+    await this._start();
     this.emit('_started');
-  }
+  };
 
-  private _maybeEnd() {
+  private readonly _maybeEnd = async (): Promise<void> => {
     if (!this._isRunning) {
       return;
     }
-
     this._isRunning = false;
     this._setupBlockResetTimeout();
     this._end();
     this.emit('_ended');
-  }
+  };
 
   private _getBlockTrackerEventCount(): number {
     return blockTrackerEvents
@@ -234,9 +232,9 @@ export class PollingBlockTracker
     }
   }
 
-  private _resetCurrentBlock(): void {
+  private readonly _resetCurrentBlock = (): void => {
     this._currentBlock = null;
-  }
+  };
 
   // trigger block polling
   async checkForLatestBlock() {
@@ -244,15 +242,14 @@ export class PollingBlockTracker
     return await this.getLatestBlock();
   }
 
-  private _start() {
+  private readonly _start = async (): Promise<void> => {
     // Intentionally not awaited as this starts the polling via a timeout chain.
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this._updateAndQueue();
-  }
+    this._updateAndQueue().catch((error) => console.error(error));
+  };
 
-  private _end() {
+  private readonly _end = (): void => {
     this._clearPollingTimeout();
-  }
+  };
 
   private async _updateLatestBlock(): Promise<void> {
     // fetch + set latest block
@@ -286,7 +283,7 @@ export class PollingBlockTracker
    * The core polling function that runs after each interval.
    * Updates the latest block and then queues the next update.
    */
-  private async _updateAndQueue() {
+  private readonly _updateAndQueue = async (): Promise<void> => {
     let interval = this._pollingInterval;
 
     try {
@@ -326,7 +323,7 @@ export class PollingBlockTracker
     this._pollingTimeout = timeoutRef;
 
     this.emit('_waitingForNextIteration');
-  }
+  };
 
   _clearPollingTimeout() {
     if (this._pollingTimeout) {
