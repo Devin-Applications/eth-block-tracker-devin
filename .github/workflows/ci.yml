@@ -21,6 +21,15 @@ jobs:
       with:
         node-version: 20
 
+    - name: Cache Yarn dependencies
+      uses: actions/cache@v2
+      with:
+        path: |
+          .yarn/cache
+        key: yarn-cache-$(runner.os)-$(hashFiles('**/yarn.lock'))
+        restore-keys: |
+          yarn-cache-$(runner.os)-
+
     - name: Install Yarn
       run: corepack enable
 
