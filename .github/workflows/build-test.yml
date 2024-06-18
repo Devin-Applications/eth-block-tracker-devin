@@ -19,14 +19,14 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
-      - name: Enable Corepack
-        run: corepack enable
-      - name: Verify Corepack is enabled
-        run: corepack --version
-      - name: Set Yarn version to berry
-        run: yarn set version berry
-      - name: Print Yarn version
-        run: yarn --version
+      - name: Enable Corepack and Set Yarn Version
+        run: |
+          corepack enable
+          yarn set version berry
+      - name: Verify Corepack and Yarn Version
+        run: |
+          corepack --version
+          yarn --version
       - name: Cache yarn dependencies
         uses: actions/cache@v2
         with:
