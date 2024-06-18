@@ -3,6 +3,10 @@ module.exports = {
 
   extends: ['@metamask/eslint-config'],
 
+  parserOptions: {
+    project: '/home/ubuntu/eth-block-tracker-devin/tsconfig.json',
+  },
+
   overrides: [
     {
       files: ['*.ts'],
