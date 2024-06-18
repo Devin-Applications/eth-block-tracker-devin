@@ -32,26 +32,33 @@ jobs:
           key: yarn-cache-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
       - name: Install dependencies
         run: |
+          corepack enable
           yarn install --immutable
       - name: Allow scripts
         run: |
+          corepack enable
           yarn allow-scripts
       - name: Build project
         run: |
+          corepack enable
           yarn build
       - name: Lint code
         run: |
+          corepack enable
           yarn lint
       - name: Run tests
         run: |
+          corepack enable
           yarn test
       - name: Validate RC changelog
         if: ${{ startsWith(github.head_ref, 'release/') }}
         run: |
+          corepack enable
           yarn auto-changelog validate --rc
       - name: Validate changelog
         if: ${{ !startsWith(github.head_ref, 'release/') }}
         run: |
+          corepack enable
           yarn auto-changelog validate
       - name: Require clean working directory
         shell: bash
