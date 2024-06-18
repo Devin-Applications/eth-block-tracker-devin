@@ -22,7 +22,7 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
       - name: Set Yarn version to 4.3.0
-        run: yarn set version berry
+        run: corepack prepare yarn@4.3.0 --activate
       - name: Get Yarn cache directory
         run: echo "YARN_CACHE_DIR=$(yarn config get cacheFolder)" >> $GITHUB_ENV
       - name: Get Yarn version
