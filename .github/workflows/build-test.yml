@@ -25,6 +25,8 @@ jobs:
         run: corepack enable
       - name: Set Yarn version to 4.3.0
         run: corepack prepare yarn@4.3.0 --activate
+      - name: Export Yarn path
+        run: echo "PATH=$(yarn global bin):$PATH" >> $GITHUB_ENV
       - name: Get Yarn version
         run: echo "YARN_VERSION=$(yarn --version)" >> $GITHUB_ENV
       - name: Cache yarn dependencies
