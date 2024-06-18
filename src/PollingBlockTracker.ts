@@ -140,21 +140,21 @@ export class PollingBlockTracker
     this.on('removeListener', this._onRemoveListener);
   }
 
-  private _onNewListener(eventName: string | symbol): void {
+  private readonly _onNewListener = (eventName: string | symbol): void => {
     // `newListener` is called *before* the listener is added
     if (blockTrackerEvents.includes(eventName)) {
       // TODO: Handle dangling promise
       this._maybeStart();
     }
-  }
+  };
 
-  private _onRemoveListener(): void {
+  private readonly _onRemoveListener = (): void => {
     // `removeListener` is called *after* the listener is removed
     if (this._getBlockTrackerEventCount() > 0) {
       return;
     }
     this._maybeEnd();
-  }
+  };
 
   private _maybeStart() {
     if (this._isRunning) {
@@ -234,9 +234,9 @@ export class PollingBlockTracker
     }
   }
 
-  private _resetCurrentBlock(): void {
+  private readonly _resetCurrentBlock = (): void => {
     this._currentBlock = null;
-  }
+  };
 
   // trigger block polling
   async checkForLatestBlock() {

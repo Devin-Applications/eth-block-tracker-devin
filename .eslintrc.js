@@ -3,6 +3,10 @@ module.exports = {
 
   extends: ['@metamask/eslint-config'],
 
+  parserOptions: {
+    project: './tsconfig.json',
+  },
+
   overrides: [
     {
       files: ['*.ts'],
@@ -20,6 +24,12 @@ module.exports = {
         'no-restricted-syntax': 'off',
         '@typescript-eslint/no-invalid-this': ['error'],
         '@typescript-eslint/restrict-template-expressions': 'off',
+        '@typescript-eslint/prefer-readonly': [
+          'error',
+          {
+            onlyInlineLambdas: true,
+          },
+        ],
       },
     },
 

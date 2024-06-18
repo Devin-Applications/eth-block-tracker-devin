@@ -454,10 +454,10 @@ describe('PollingBlockTracker', () => {
         async ({ blockTracker }) => {
           jest.spyOn(console, 'error').mockImplementation(EMPTY_FUNCTION);
 
-          blockTracker.getLatestBlock();
+          blockTracker.getLatestBlock().catch((error) => console.error(error));
           await new Promise((resolve) => {
             blockTracker.on('_waitingForNextIteration', resolve);
-          });
+          }).catch((error) => console.error(error));
 
           expect(console.error).toHaveBeenCalledWith(
             expect.objectContaining({
@@ -489,10 +489,10 @@ describe('PollingBlockTracker', () => {
         async ({ blockTracker }) => {
           jest.spyOn(console, 'error').mockImplementation(EMPTY_FUNCTION);
 
-          blockTracker.getLatestBlock();
+          blockTracker.getLatestBlock().catch((error) => console.error(error));
           await new Promise((resolve) => {
             blockTracker.on('_waitingForNextIteration', resolve);
-          });
+          }).catch((error) => console.error(error));
 
           expect(console.error).toHaveBeenCalledWith(
             expect.objectContaining({
@@ -524,10 +524,10 @@ describe('PollingBlockTracker', () => {
         async ({ blockTracker }) => {
           jest.spyOn(console, 'error').mockImplementation(EMPTY_FUNCTION);
 
-          blockTracker.getLatestBlock();
+          blockTracker.getLatestBlock().catch((error) => console.error(error));
           await new Promise((resolve) => {
             blockTracker.on('_waitingForNextIteration', resolve);
-          });
+          }).catch((error) => console.error(error));
 
           expect(console.error).toHaveBeenCalledWith(
             expect.objectContaining({
@@ -557,10 +557,10 @@ describe('PollingBlockTracker', () => {
         async ({ blockTracker }) => {
           jest.spyOn(console, 'error').mockImplementation(EMPTY_FUNCTION);
 
-          blockTracker.getLatestBlock();
+          blockTracker.getLatestBlock().catch((error) => console.error(error));
           await new Promise((resolve) => {
             blockTracker.on('_waitingForNextIteration', resolve);
-          });
+          }).catch((error) => console.error(error));
 
           expect(console.error).toHaveBeenCalledWith(
             expect.objectContaining({
@@ -660,10 +660,12 @@ describe('PollingBlockTracker', () => {
           },
         },
         async ({ blockTracker }) => {
-          blockTracker.checkForLatestBlock();
+          blockTracker
+            .checkForLatestBlock()
+            .catch((error) => console.error(error));
           await new Promise((resolve) => {
             blockTracker.on('latest', resolve);
-          });
+          }).catch((error) => console.error(error));
           expect(blockTracker.isRunning()).toBe(true);
         },
       );

@@ -128,23 +128,27 @@ export class SubscribeBlockTracker
     this.on('removeListener', this._onRemoveListener);
   }
 
-  private _onNewListener(eventName: string | symbol): void {
+  private _onNewListener = (eventName: string | symbol): void => {
     // `newListener` is called *before* the listener is added
     if (blockTrackerEvents.includes(eventName)) {
       // TODO: Handle dangling promise
-      this._maybeStart();
+      this._maybeStart().catch((error) => {
+        this.emit('error', error);
+      });
     }
-  }
+  };
 
-  private _onRemoveListener(): void {
+  private _onRemoveListener = (): void => {
     // `removeListener` is called *after* the listener is removed
     if (this._getBlockTrackerEventCount() > 0) {
       return;
     }
-    this._maybeEnd();
-  }
+    this._maybeEnd().catch((error) => {
+      this.emit('error', error);
+    });
+  };
 
-  private async _maybeStart(): Promise<void> {
+  private _maybeStart = async (): Promise<void> => {
     if (this._isRunning) {
       return;
     }
@@ -153,9 +157,9 @@ export class SubscribeBlockTracker
     this._cancelBlockResetTimeout();
     await this._start();
     this.emit('_started');
-  }
+  };
 
-  private async _maybeEnd(): Promise<void> {
+  private _maybeEnd = async (): Promise<void> => {
     if (!this._isRunning) {
       return;
     }
@@ -163,7 +167,7 @@ export class SubscribeBlockTracker
     this._setupBlockResetTimeout();
     await this._end();
     this.emit('_ended');
-  }
+  };
 
   private _getBlockTrackerEventCount(): number {
     return blockTrackerEvents
@@ -199,7 +203,7 @@ export class SubscribeBlockTracker
     this.emit('sync', { oldBlock, newBlock });
   }
 
-  private _setupBlockResetTimeout(): void {
+  private _setupBlockResetTimeout = (): void => {
     // clear any existing timeout
     this._cancelBlockResetTimeout();
     // clear latest block when stale
@@ -212,23 +216,23 @@ export class SubscribeBlockTracker
     if (this._blockResetTimeout.unref) {
       this._blockResetTimeout.unref();
     }
-  }
+  };
 
-  private _cancelBlockResetTimeout(): void {
+  private _cancelBlockResetTimeout = (): void => {
     if (this._blockResetTimeout) {
       clearTimeout(this._blockResetTimeout);
     }
-  }
+  };
 
-  private _resetCurrentBlock(): void {
+  private _resetCurrentBlock = (): void => {
     this._currentBlock = null;
-  }
+  };
 
   async checkForLatestBlock(): Promise<string> {
     return await this.getLatestBlock();
   }
 
-  private async _start(): Promise<void> {
+  private _start = async (): Promise<void> => {
     if (this._subscriptionId === undefined || this._subscriptionId === null) {
       try {
         const blockNumber = (await this._call('eth_blockNumber')) as string;
@@ -236,15 +240,15 @@ export class SubscribeBlockTracker
           'eth_subscribe',
           'newHeads',
         )) as string;
-        this._provider.on('data', this._handleSubData.bind(this));
+        this._provider.on('data', this._handleSubData);
         this._newPotentialLatest(blockNumber);
       } catch (e) {
         this.emit('error', e);
       }
     }
-  }
+  };
 
-  private async _end() {
+  private _end = async (): Promise<void> => {
     if (this._subscriptionId !== null && this._subscriptionId !== undefined) {
       try {
         await this._call('eth_unsubscribe', this._subscriptionId);
@@ -253,9 +257,9 @@ export class SubscribeBlockTracker
         this.emit('error', e);
       }
     }
-  }
+  };
 
-  private async _call(method: string, ...params: Json[]): Promise<unknown> {
+  private _call = async (method: string, ...params: Json[]): Promise<unknown> => {
     return new Promise((resolve, reject) => {
       this._provider.sendAsync(
         {
@@ -273,19 +277,19 @@ export class SubscribeBlockTracker
         },
       );
     });
-  }
+  };
 
-  private _handleSubData(
+  private _handleSubData = (
     _: unknown,
     response: JsonRpcNotification<SubscriptionNotificationParams>,
-  ): void {
+  ): void => {
     if (
       response.method === 'eth_subscription' &&
       response.params?.subscription === this._subscriptionId
     ) {
       this._newPotentialLatest(response.params.result.number);
     }
-  }
+  };
 }
 
 /**
