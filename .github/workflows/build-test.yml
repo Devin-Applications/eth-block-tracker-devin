@@ -23,14 +23,12 @@ jobs:
         run: corepack enable
       - name: Set Yarn version to 4.3.0
         run: corepack prepare yarn@4.3.0 --activate
-      - name: Get Yarn cache directory
-        run: echo "YARN_CACHE_DIR=$(yarn config get cacheFolder)" >> $GITHUB_ENV
       - name: Get Yarn version
         run: echo "YARN_VERSION=$(yarn --version)" >> $GITHUB_ENV
       - name: Cache yarn dependencies
         uses: actions/cache@v2
         with:
-          path: ${{ env.YARN_CACHE_DIR }}
+          path: .yarn/cache
           key: yarn-cache-${{ runner.os }}-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
       - run: yarn install --immutable
       - run: yarn allow-scripts
