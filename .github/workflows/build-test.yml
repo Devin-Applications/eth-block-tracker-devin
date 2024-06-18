@@ -19,12 +19,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
-      - name: Install Corepack
-        run: npm install -g corepack
-      - name: Enable Corepack and Set Yarn Version
-        run: |
-          corepack enable
-          corepack prepare yarn@4.3.0 --activate
+      - name: Enable Corepack
+        run: corepack enable
+      - name: Set Yarn Version
+        run: corepack prepare yarn@4.3.0 --activate
       - name: Verify Corepack and Yarn Version
         run: |
           corepack --version
