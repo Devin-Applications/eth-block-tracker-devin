@@ -1,3 +1,4 @@
+```
 .DS_Store
 dist/
 coverage/
@@ -72,3 +73,11 @@ node_modules/
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# yarn v4
+.yarn/patches
+.yarn/plugins
+.yarn/releases
+.yarn/sdks
+.yarn/versions
+```

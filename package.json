@@ -22,7 +22,13 @@
     "prepublishOnly": "yarn build:clean && yarn lint && yarn test",
     "setup": "yarn install && yarn allow-scripts",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "lint:changelog": "auto-changelog validate --prettier",
+    "lint:constraints": "yarn constraints",
+    "lint:dependencies": "depcheck && yarn dedupe",
+    "build:docs": "typedoc",
+    "build:types": "tsc --project tsconfig.build.json",
+    "prepack": "./scripts/prepack.sh"
   },
   "dependencies": {
     "@metamask/eth-json-rpc-provider": "^4.0.0",
@@ -45,6 +51,8 @@
     "@types/pify": "^5.0.1",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "@typescript-eslint/parser": "^5.61.0",
+    "@yarnpkg/types": "^4.0.0-rc.52",
+    "depcheck": "^1.4.3",
     "eslint": "^8.21.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-import-resolver-typescript": "^2.7.1",
@@ -73,5 +81,6 @@
     "allowScripts": {
       "@lavamoat/preinstall-always-fail": false
     }
-  }
+  },
+  "packageManager": "yarn@4.1.1"
 }
