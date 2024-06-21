@@ -10,6 +10,8 @@ or
 
 `npm install @metamask/eth-block-tracker`
 
+**Note:** This project uses Yarn v4. Please ensure you have Yarn v4 installed. You can install Yarn v4 via [Corepack](https://github.com/nodejs/corepack?tab=readme-ov-file#how-to-install). For the latest Yarn version, visit the [Yarn website](https://yarnpkg.com/getting-started/install).
+
 ## Usage
 
 ```js
@@ -92,8 +94,8 @@ blockTracker.on('error', (err) => console.error(err));
 
 - Install the current LTS version of [Node.js](https://nodejs.org)
   - If you are using [nvm](https://github.com/creationix/nvm#installation) (recommended) running `nvm use` will automatically choose the right node version for you.
-- Install [Yarn v1](https://yarnpkg.com/en/docs/install)
-- Run `yarn setup` to install dependencies and run any requried post-install scripts
+- Install [Yarn v4](https://yarnpkg.com/getting-started/install)
+- Run `yarn setup` to install dependencies and run any required post-install scripts
   - **Warning:** Do not use the `yarn` / `yarn install` command directly. Use `yarn setup` instead. The normal install command will skip required post-install scripts, leaving your development environment in an invalid state.
 
 ### Testing and Linting
