@@ -74,5 +74,11 @@
     "allowScripts": {
       "@lavamoat/preinstall-always-fail": false
     }
-  }
+  },
+  "yarnPlugins": [
+    {
+      "name": "@yarnpkg/plugin-allow-scripts",
+      "path": ".yarn/plugins/@yarnpkg/plugin-allow-scripts.cjs"
+    }
+  ]
 }

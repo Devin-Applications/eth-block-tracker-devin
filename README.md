@@ -4,7 +4,9 @@ This module walks the Ethereum blockchain, keeping track of the latest block. It
 
 ## Installation
 
-`yarn add @metamask/eth-block-tracker`
+Install [Yarn v2+](https://yarnpkg.com/getting-started/install)
+
+Run `yarn setup` to install dependencies and run any required post-install scripts.
 
 or
 
@@ -92,8 +94,8 @@ blockTracker.on('error', (err) => console.error(err));
 
 - Install the current LTS version of [Node.js](https://nodejs.org)
   - If you are using [nvm](https://github.com/creationix/nvm#installation) (recommended) running `nvm use` will automatically choose the right node version for you.
-- Install [Yarn v1](https://yarnpkg.com/en/docs/install)
-- Run `yarn setup` to install dependencies and run any requried post-install scripts
+- Install [Yarn v2+](https://yarnpkg.com/getting-started/install)
+- Run `yarn setup` to install dependencies and run any required post-install scripts.
   - **Warning:** Do not use the `yarn` / `yarn install` command directly. Use `yarn setup` instead. The normal install command will skip required post-install scripts, leaving your development environment in an invalid state.
 
 ### Testing and Linting
@@ -134,8 +136,8 @@ The project follows the same release process as the other libraries in the MetaM
 
    - This should trigger the [`action-publish-release`](https://github.com/MetaMask/action-publish-release) workflow to tag the final release commit and publish the release on GitHub.
 
-7. Publish the release on npm.
+7. Publish the release using Yarn.
 
    - Be very careful to use a clean local environment to publish the release, and follow exactly the same steps used during CI.
-   - Use `npm publish --dry-run` to examine the release contents to ensure the correct files are included. Compare to previous releases if necessary (e.g. using `https://unpkg.com/browse/[package name]@[package version]/`).
-   - Once you are confident the release contents are correct, publish the release using `npm publish`.
+   - Use `yarn npm publish --dry-run` to examine the release contents to ensure the correct files are included. Compare to previous releases if necessary (e.g. using `https://unpkg.com/browse/[package name]@[package version]/`).
+   - Once you are confident the release contents are correct, publish the release using `yarn npm publish`.
