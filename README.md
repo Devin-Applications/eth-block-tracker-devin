@@ -91,10 +91,10 @@ blockTracker.on('error', (err) => console.error(err));
 ### Setup
 
 - Install the current LTS version of [Node.js](https://nodejs.org)
-  - If you are using [nvm](https://github.com/creationix/nvm#installation) (recommended) running `nvm use` will automatically choose the right node version for you.
-- Install [Yarn v1](https://yarnpkg.com/en/docs/install)
-- Run `yarn setup` to install dependencies and run any requried post-install scripts
-  - **Warning:** Do not use the `yarn` / `yarn install` command directly. Use `yarn setup` instead. The normal install command will skip required post-install scripts, leaving your development environment in an invalid state.
+  - If you are using [nvm](https://github.com/creationix/nvm#installation) (recommended) running `nvm install` will install the latest version and running `nvm use` will automatically choose the right node version for you.
+- Install [Yarn](https://yarnpkg.com) v4 via [Corepack](https://github.com/nodejs/corepack?tab=readme-ov-file#how-to-install)
+  - [Latest Yarn version](https://yarnpkg.com/getting-started/install)
+- Run `yarn install` to install dependencies and run any required post-install scripts
 
 ### Testing and Linting
 
@@ -136,6 +136,6 @@ The project follows the same release process as the other libraries in the MetaM
 
 7. Publish the release on npm.
 
-   - Be very careful to use a clean local environment to publish the release, and follow exactly the same steps used during CI.
-   - Use `npm publish --dry-run` to examine the release contents to ensure the correct files are included. Compare to previous releases if necessary (e.g. using `https://unpkg.com/browse/[package name]@[package version]/`).
-   - Once you are confident the release contents are correct, publish the release using `npm publish`.
+   - Wait for the `publish-release` GitHub Action workflow to finish. This should trigger a second job (`publish-npm`), which will wait for a run approval by the [`npm publishers`](https://github.com/orgs/MetaMask/teams/npm-publishers) team.
+   - Approve the `publish-npm` job (or ask somebody on the npm publishers team to approve it for you).
+   - Once the `publish-npm` job has finished, check npm to verify that it has been published.
