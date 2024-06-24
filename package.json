@@ -65,6 +65,7 @@
   "engines": {
     "node": "^18.16 || ^20 || >=22"
   },
+  "packageManager": "yarn@4.1.1",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
@@ -73,5 +74,11 @@
     "allowScripts": {
       "@lavamoat/preinstall-always-fail": false
     }
-  }
+  },
+  "yarnPlugins": [
+    {
+      "name": "@yarnpkg/plugin-allow-scripts",
+      "path": ".yarn/plugins/@yarnpkg/plugin-allow-scripts.cjs"
+    }
+  ]
 }
