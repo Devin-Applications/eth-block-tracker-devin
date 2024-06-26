@@ -54,43 +54,31 @@ jobs:
           path: ${{ steps.yarn-cache-dir.outputs.YARN_CACHE_DIR }}
           key: yarn-cache-${{ runner.os }}-yarn-${{ steps.yarn-version.outputs.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
       - name: Install dependencies
-        run: |
-          corepack enable
-          corepack prepare yarn@4.3.1 --activate
-          echo "$(dirname $(which yarn))" >> $GITHUB_PATH
-          yarn --immutable --immutable-cache
+        run: yarn --immutable --immutable-cache
+        env:
+          PATH: ${{ env.PATH }}:$(dirname $(which yarn))
       - name: Build
-        run: |
-          corepack enable
-          corepack prepare yarn@4.3.1 --activate
-          echo "$(dirname $(which yarn))" >> $GITHUB_PATH
-          yarn build
+        run: yarn build
+        env:
+          PATH: ${{ env.PATH }}:$(dirname $(which yarn))
       - name: Lint
-        run: |
-          corepack enable
-          corepack prepare yarn@4.3.1 --activate
-          echo "$(dirname $(which yarn))" >> $GITHUB_PATH
-          yarn lint
+        run: yarn lint
+        env:
+          PATH: ${{ env.PATH }}:$(dirname $(which yarn))
       - name: Test
-        run: |
-          corepack enable
-          corepack prepare yarn@4.3.1 --activate
-          echo "$(dirname $(which yarn))" >> $GITHUB_PATH
-          yarn test
+        run: yarn test
+        env:
+          PATH: ${{ env.PATH }}:$(dirname $(which yarn))
       - name: Validate RC changelog
         if: ${{ startsWith(github.head_ref, 'release/') }}
-        run: |
-          corepack enable
-          corepack prepare yarn@4.3.1 --activate
-          echo "$(dirname $(which yarn))" >> $GITHUB_PATH
-          yarn lint:changelog --rc
+        run: yarn lint:changelog --rc
+        env:
+          PATH: ${{ env.PATH }}:$(dirname $(which yarn))
       - name: Validate changelog
         if: ${{ !startsWith(github.head_ref, 'release/') }}
-        run: |
-          corepack enable
-          corepack prepare yarn@4.3.1 --activate
-          echo "$(dirname $(which yarn))" >> $GITHUB_PATH
-          yarn lint:changelog
+        run: yarn lint:changelog
+        env:
+          PATH: ${{ env.PATH }}:$(dirname $(which yarn))
       - name: Require clean working directory
         shell: bash
         run: |
