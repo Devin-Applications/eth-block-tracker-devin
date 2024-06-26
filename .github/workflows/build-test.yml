@@ -38,28 +38,34 @@ jobs:
           key: yarn-cache-${{ runner.os }}-${{ steps.yarn-version.outputs.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
       - name: Install dependencies
         run: |
+          corepack enable
           corepack prepare yarn@4.3.1 --activate
           yarn --immutable --immutable-cache
       - name: Build
         run: |
+          corepack enable
           corepack prepare yarn@4.3.1 --activate
           yarn build
       - name: Lint
         run: |
+          corepack enable
           corepack prepare yarn@4.3.1 --activate
           yarn lint
       - name: Test
         run: |
+          corepack enable
           corepack prepare yarn@4.3.1 --activate
           yarn test
       - name: Validate RC changelog
         if: ${{ startsWith(github.head_ref, 'release/') }}
         run: |
+          corepack enable
           corepack prepare yarn@4.3.1 --activate
           yarn lint:changelog --rc
       - name: Validate changelog
         if: ${{ !startsWith(github.head_ref, 'release/') }}
         run: |
+          corepack enable
           corepack prepare yarn@4.3.1 --activate
           yarn lint:changelog
       - name: Require clean working directory
