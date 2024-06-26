@@ -29,6 +29,8 @@ jobs:
       - name: Get Yarn version
         run: echo "::set-output name=YARN_VERSION::$(yarn --version)"
         id: yarn-version
+      - name: Print Yarn version
+        run: yarn --version
       - name: Cache yarn dependencies
         uses: actions/cache@v2
         with:
