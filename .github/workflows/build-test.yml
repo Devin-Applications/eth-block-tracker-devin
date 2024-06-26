@@ -31,8 +31,10 @@ jobs:
       - name: Get Yarn version
         run: echo "YARN_VERSION=$(yarn --version)" >> $GITHUB_ENV
         id: yarn-version
+      - name: Print Yarn cache directory
+        run: echo "YARN_CACHE_DIR: ${{ env.YARN_CACHE_DIR }}"
       - name: Print Yarn version
-        run: yarn --version
+        run: echo "YARN_VERSION: ${{ env.YARN_VERSION }}"
       - name: Cache yarn dependencies
         uses: actions/cache@v2
         with:
