@@ -28,7 +28,7 @@ jobs:
       - name: Set Yarn version
         run: corepack prepare yarn@4.3.1 --activate
       - name: Add Yarn to PATH
-        run: echo "::add-path::$(dirname $(which yarn))"
+        run: echo "$(dirname $(which yarn))" >> $GITHUB_PATH
       - name: Print PATH
         run: echo $PATH
       - name: Print Yarn binary location
