@@ -57,33 +57,39 @@ jobs:
         run: |
           corepack enable
           corepack prepare yarn@4.3.1 --activate
+          echo "$(dirname $(which yarn))" >> $GITHUB_PATH
           yarn --immutable --immutable-cache
       - name: Build
         run: |
           corepack enable
           corepack prepare yarn@4.3.1 --activate
+          echo "$(dirname $(which yarn))" >> $GITHUB_PATH
           yarn build
       - name: Lint
         run: |
           corepack enable
           corepack prepare yarn@4.3.1 --activate
+          echo "$(dirname $(which yarn))" >> $GITHUB_PATH
           yarn lint
       - name: Test
         run: |
           corepack enable
           corepack prepare yarn@4.3.1 --activate
+          echo "$(dirname $(which yarn))" >> $GITHUB_PATH
           yarn test
       - name: Validate RC changelog
         if: ${{ startsWith(github.head_ref, 'release/') }}
         run: |
           corepack enable
           corepack prepare yarn@4.3.1 --activate
+          echo "$(dirname $(which yarn))" >> $GITHUB_PATH
           yarn lint:changelog --rc
       - name: Validate changelog
         if: ${{ !startsWith(github.head_ref, 'release/') }}
         run: |
           corepack enable
           corepack prepare yarn@4.3.1 --activate
+          echo "$(dirname $(which yarn))" >> $GITHUB_PATH
           yarn lint:changelog
       - name: Require clean working directory
         shell: bash
