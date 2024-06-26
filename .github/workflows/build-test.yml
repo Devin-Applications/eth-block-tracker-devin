@@ -19,8 +19,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
-      - name: Uninstall global Yarn
-        run: sudo npm uninstall -g yarn
       - name: Enable Corepack
         run: corepack enable
       - name: Set Yarn version
