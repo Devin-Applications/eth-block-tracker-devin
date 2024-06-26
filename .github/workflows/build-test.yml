@@ -28,7 +28,7 @@ jobs:
       - name: Set Yarn version
         run: corepack prepare yarn@4.3.1 --activate
       - name: Add Yarn to PATH
-        run: echo "::add-path::$(yarn global bin)"
+        run: echo "$(yarn global bin)" >> $GITHUB_PATH
       - name: Get Yarn cache directory
         run: echo "::set-output name=YARN_CACHE_DIR::$(yarn cache dir)"
         id: yarn-cache-dir
