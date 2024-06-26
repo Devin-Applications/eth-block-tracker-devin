@@ -92,9 +92,9 @@ blockTracker.on('error', (err) => console.error(err));
 
 - Install the current LTS version of [Node.js](https://nodejs.org)
   - If you are using [nvm](https://github.com/creationix/nvm#installation) (recommended) running `nvm use` will automatically choose the right node version for you.
-- Install [Yarn v1](https://yarnpkg.com/en/docs/install)
-- Run `yarn setup` to install dependencies and run any requried post-install scripts
-  - **Warning:** Do not use the `yarn` / `yarn install` command directly. Use `yarn setup` instead. The normal install command will skip required post-install scripts, leaving your development environment in an invalid state.
+- Install [Yarn](https://yarnpkg.com) v4 via [Corepack](https://github.com/nodejs/corepack?tab=readme-ov-file#how-to-install)
+- Run `yarn install` to install dependencies and run any required post-install scripts
+  - **Warning:** Do not use the `yarn` / `yarn setup` command directly. Use `yarn install` instead. The normal install command will skip required post-install scripts, leaving your development environment in an invalid state.
 
 ### Testing and Linting
 
@@ -139,3 +139,6 @@ The project follows the same release process as the other libraries in the MetaM
    - Be very careful to use a clean local environment to publish the release, and follow exactly the same steps used during CI.
    - Use `npm publish --dry-run` to examine the release contents to ensure the correct files are included. Compare to previous releases if necessary (e.g. using `https://unpkg.com/browse/[package name]@[package version]/`).
    - Once you are confident the release contents are correct, publish the release using `npm publish`.
+```
+
+<!-- Triggering a new workflow run to verify Yarn version mismatch resolution - Attempt 5 -->

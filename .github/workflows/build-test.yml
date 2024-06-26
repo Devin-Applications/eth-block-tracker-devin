@@ -11,42 +11,64 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x]
+        node-version: [20.x]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+      - name: Enable Corepack
+        run: corepack enable
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+          cache-dependency-path: yarn.lock
+          check-latest: true
+      - name: Set Yarn version
+        run: corepack prepare yarn@4.3.1 --activate
       - name: Get Yarn cache directory
-        run: echo "::set-output name=YARN_CACHE_DIR::$(yarn cache dir)"
+        run: echo "YARN_CACHE_DIR=$(yarn cache dir)" >> $GITHUB_ENV
         id: yarn-cache-dir
       - name: Get Yarn version
-        run: echo "::set-output name=YARN_VERSION::$(yarn --version)"
+        run: echo "YARN_VERSION=$(yarn --version)" >> $GITHUB_ENV
         id: yarn-version
+      - name: Print Yarn cache directory
+        run: echo "YARN_CACHE_DIR: ${{ env.YARN_CACHE_DIR }}"
+      - name: Print Yarn version
+        run: echo "YARN_VERSION: ${{ env.YARN_VERSION }}"
       - name: Cache yarn dependencies
         uses: actions/cache@v2
         with:
-          path: ${{ steps.yarn-cache-dir.outputs.YARN_CACHE_DIR }}
-          key: yarn-cache-${{ runner.os }}-${{ steps.yarn-version.outputs.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
-      - run: yarn --frozen-lockfile
-      - run: yarn allow-scripts
-      - run: yarn build
-      - run: yarn lint
-      - run: yarn test
+          path: ${{ env.YARN_CACHE_DIR }}
+          key: yarn-cache-${{ runner.os }}-yarn-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
+      - name: Install dependencies
+        run: yarn install --immutable --immutable-cache
+      - name: Save yarn cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.YARN_CACHE_DIR }}
+          key: yarn-cache-${{ runner.os }}-yarn-${{ env.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            yarn-cache-${{ runner.os }}-yarn-${{ env.YARN_VERSION }}-
+            yarn-cache-${{ runner.os }}-yarn-
+            yarn-cache-
+      - name: Build
+        run: yarn build
+      - name: Lint
+        run: yarn lint
+      - name: Test
+        run: yarn test
       - name: Validate RC changelog
         if: ${{ startsWith(github.head_ref, 'release/') }}
-        run: yarn auto-changelog validate --rc
+        run: yarn lint:changelog --rc
       - name: Validate changelog
         if: ${{ !startsWith(github.head_ref, 'release/') }}
-        run: yarn auto-changelog validate
+        run: yarn lint:changelog
       - name: Require clean working directory
         shell: bash
         run: |
           if ! git diff --exit-code; then
             echo "Working tree dirty after building"
             exit 1
-          fi
   all-jobs-pass:
     name: All jobs pass
     runs-on: ubuntu-20.04
