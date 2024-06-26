@@ -22,7 +22,7 @@ jobs:
       - name: Install Yarn
         run: corepack enable
       - name: Set Yarn version
-        run: yarn set version 4.3.1
+        run: yarn set version berry
       - name: Get Yarn cache directory
         run: echo "::set-output name=YARN_CACHE_DIR::$(yarn cache dir)"
         id: yarn-cache-dir
@@ -34,8 +34,6 @@ jobs:
         with:
           path: ${{ steps.yarn-cache-dir.outputs.YARN_CACHE_DIR }}
           key: yarn-cache-${{ runner.os }}-${{ steps.yarn-version.outputs.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
-      - run: corepack enable
-      - run: yarn set version 4.3.1
       - run: yarn --immutable --immutable-cache
       - run: yarn build
       - run: yarn lint
