@@ -21,6 +21,8 @@ jobs:
           cache: 'yarn'
           cache-dependency-path: yarn.lock
           check-latest: true
+      - name: Remove global Yarn
+        run: sudo npm uninstall -g yarn
       - name: Enable Corepack
         run: corepack enable
       - name: Set Yarn version
