@@ -14,6 +14,8 @@ jobs:
         node-version: [20.x]
     steps:
       - uses: actions/checkout@v4
+      - name: Enable Corepack
+        run: corepack enable
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
@@ -23,8 +25,6 @@ jobs:
           check-latest: true
       - name: Remove global Yarn
         run: sudo npm uninstall -g yarn
-      - name: Enable Corepack
-        run: corepack enable
       - name: Set Yarn version
         run: corepack prepare yarn@4.3.1 --activate
       - name: Get Yarn cache directory
