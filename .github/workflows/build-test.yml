@@ -55,19 +55,31 @@ jobs:
           path: ${{ steps.yarn-cache-dir.outputs.YARN_CACHE_DIR }}
           key: yarn-cache-${{ runner.os }}-yarn-${{ steps.yarn-version.outputs.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
       - name: Install dependencies
-        run: yarn --immutable --immutable-cache
+        run: |
+          echo "$(dirname $(which yarn))" >> $GITHUB_PATH
+          yarn --immutable --immutable-cache
       - name: Build
-        run: yarn build
+        run: |
+          echo "$(dirname $(which yarn))" >> $GITHUB_PATH
+          yarn build
       - name: Lint
-        run: yarn lint
+        run: |
+          echo "$(dirname $(which yarn))" >> $GITHUB_PATH
+          yarn lint
       - name: Test
-        run: yarn test
+        run: |
+          echo "$(dirname $(which yarn))" >> $GITHUB_PATH
+          yarn test
       - name: Validate RC changelog
         if: ${{ startsWith(github.head_ref, 'release/') }}
-        run: yarn lint:changelog --rc
+        run: |
+          echo "$(dirname $(which yarn))" >> $GITHUB_PATH
+          yarn lint:changelog --rc
       - name: Validate changelog
         if: ${{ !startsWith(github.head_ref, 'release/') }}
-        run: yarn lint:changelog
+        run: |
+          echo "$(dirname $(which yarn))" >> $GITHUB_PATH
+          yarn lint:changelog
       - name: Require clean working directory
         shell: bash
         run: |
