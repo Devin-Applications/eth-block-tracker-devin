@@ -19,10 +19,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
-      - name: Install Yarn
+      - name: Enable Corepack
         run: corepack enable
       - name: Set Yarn version
-        run: yarn set version 4.3.1
+        run: corepack prepare yarn@4.3.1 --activate
       - name: Get Yarn cache directory
         run: echo "::set-output name=YARN_CACHE_DIR::$(yarn cache dir)"
         id: yarn-cache-dir
