@@ -36,16 +36,32 @@ jobs:
         with:
           path: ${{ steps.yarn-cache-dir.outputs.YARN_CACHE_DIR }}
           key: yarn-cache-${{ runner.os }}-${{ steps.yarn-version.outputs.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
-      - run: yarn --immutable --immutable-cache
-      - run: yarn build
-      - run: yarn lint
-      - run: yarn test
+      - name: Install dependencies
+        run: |
+          corepack prepare yarn@4.3.1 --activate
+          yarn --immutable --immutable-cache
+      - name: Build
+        run: |
+          corepack prepare yarn@4.3.1 --activate
+          yarn build
+      - name: Lint
+        run: |
+          corepack prepare yarn@4.3.1 --activate
+          yarn lint
+      - name: Test
+        run: |
+          corepack prepare yarn@4.3.1 --activate
+          yarn test
       - name: Validate RC changelog
         if: ${{ startsWith(github.head_ref, 'release/') }}
-        run: yarn lint:changelog --rc
+        run: |
+          corepack prepare yarn@4.3.1 --activate
+          yarn lint:changelog --rc
       - name: Validate changelog
         if: ${{ !startsWith(github.head_ref, 'release/') }}
-        run: yarn lint:changelog
+        run: |
+          corepack prepare yarn@4.3.1 --activate
+          yarn lint:changelog
       - name: Require clean working directory
         shell: bash
         run: |
