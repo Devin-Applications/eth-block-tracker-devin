@@ -14,8 +14,6 @@ jobs:
         node-version: [20.x]
     steps:
       - uses: actions/checkout@v4
-      - name: Uninstall globally installed Yarn
-        run: sudo npm uninstall -g yarn
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
@@ -25,21 +23,8 @@ jobs:
           check-latest: true
       - name: Enable Corepack
         run: corepack enable
-      - name: Add Yarn to PATH
-        run: echo "$(dirname $(which yarn))" >> $GITHUB_PATH
       - name: Set Yarn version
         run: corepack prepare yarn@4.3.1 --activate
-      - name: Print PATH
-        run: echo $PATH
-      - name: Print Yarn binary location
-        run: which yarn
-      - name: Verify Yarn executable
-        run: |
-          if [ -x "$(command -v yarn)" ]; then
-            echo "Yarn is executable"
-          else
-            echo "Yarn is not executable"
-            exit 1
       - name: Get Yarn cache directory
         run: echo "::set-output name=YARN_CACHE_DIR::$(yarn cache dir)"
         id: yarn-cache-dir
@@ -55,30 +40,18 @@ jobs:
           key: yarn-cache-${{ runner.os }}-yarn-${{ steps.yarn-version.outputs.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
       - name: Install dependencies
         run: yarn install --immutable --immutable-cache
-        env:
-          PATH: ${{ env.PATH }}:$(dirname $(which yarn))
       - name: Build
         run: yarn build
-        env:
-          PATH: ${{ env.PATH }}:$(dirname $(which yarn))
       - name: Lint
         run: yarn lint
-        env:
-          PATH: ${{ env.PATH }}:$(dirname $(which yarn))
       - name: Test
         run: yarn test
-        env:
-          PATH: ${{ env.PATH }}:$(dirname $(which yarn))
       - name: Validate RC changelog
         if: ${{ startsWith(github.head_ref, 'release/') }}
         run: yarn lint:changelog --rc
-        env:
-          PATH: ${{ env.PATH }}:$(dirname $(which yarn))
       - name: Validate changelog
         if: ${{ !startsWith(github.head_ref, 'release/') }}
         run: yarn lint:changelog
-        env:
-          PATH: ${{ env.PATH }}:$(dirname $(which yarn))
       - name: Require clean working directory
         shell: bash
         run: |
