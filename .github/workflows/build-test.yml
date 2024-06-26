@@ -23,7 +23,6 @@ jobs:
           cache: 'yarn'
           cache-dependency-path: yarn.lock
           check-latest: true
-          package-manager: 'yarn@4.3.1'
       - name: Enable Corepack
         run: corepack enable
       - name: Set Yarn version
