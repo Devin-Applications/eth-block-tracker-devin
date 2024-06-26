@@ -21,8 +21,10 @@ jobs:
           cache: 'yarn'
       - name: Uninstall global Yarn
         run: sudo npm uninstall -g yarn
-      - name: Install Yarn 4.3.1 globally
-        run: npm install -g yarn@4.3.1
+      - name: Enable Corepack
+        run: corepack enable
+      - name: Set Yarn version
+        run: corepack prepare yarn@4.3.1 --activate
       - name: Get Yarn cache directory
         run: echo "::set-output name=YARN_CACHE_DIR::$(yarn cache dir)"
         id: yarn-cache-dir
@@ -37,19 +39,37 @@ jobs:
           path: ${{ steps.yarn-cache-dir.outputs.YARN_CACHE_DIR }}
           key: yarn-cache-${{ runner.os }}-yarn-${{ steps.yarn-version.outputs.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
       - name: Install dependencies
-        run: yarn --immutable --immutable-cache
+        run: |
+          corepack enable
+          corepack prepare yarn@4.3.1 --activate
+          yarn --immutable --immutable-cache
       - name: Build
-        run: yarn build
+        run: |
+          corepack enable
+          corepack prepare yarn@4.3.1 --activate
+          yarn build
       - name: Lint
-        run: yarn lint
+        run: |
+          corepack enable
+          corepack prepare yarn@4.3.1 --activate
+          yarn lint
       - name: Test
-        run: yarn test
+        run: |
+          corepack enable
+          corepack prepare yarn@4.3.1 --activate
+          yarn test
       - name: Validate RC changelog
         if: ${{ startsWith(github.head_ref, 'release/') }}
-        run: yarn lint:changelog --rc
+        run: |
+          corepack enable
+          corepack prepare yarn@4.3.1 --activate
+          yarn lint:changelog --rc
       - name: Validate changelog
         if: ${{ !startsWith(github.head_ref, 'release/') }}
-        run: yarn lint:changelog
+        run: |
+          corepack enable
+          corepack prepare yarn@4.3.1 --activate
+          yarn lint:changelog
       - name: Require clean working directory
         shell: bash
         run: |
