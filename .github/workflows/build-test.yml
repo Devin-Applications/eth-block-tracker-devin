@@ -54,7 +54,7 @@ jobs:
           path: ${{ steps.yarn-cache-dir.outputs.YARN_CACHE_DIR }}
           key: yarn-cache-${{ runner.os }}-yarn-${{ steps.yarn-version.outputs.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
       - name: Install dependencies
-        run: yarn --immutable --immutable-cache
+        run: yarn install --immutable --immutable-cache
         env:
           PATH: ${{ env.PATH }}:$(dirname $(which yarn))
       - name: Build
