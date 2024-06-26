@@ -37,7 +37,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ steps.yarn-cache-dir.outputs.YARN_CACHE_DIR }}
-          key: yarn-cache-${{ runner.os }}-${{ steps.yarn-version.outputs.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
+          key: yarn-cache-${{ runner.os }}-yarn-${{ steps.yarn-version.outputs.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
       - name: Install dependencies
         run: |
           corepack prepare yarn@4.3.1 --activate
