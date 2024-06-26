@@ -56,29 +56,35 @@ jobs:
           key: yarn-cache-${{ runner.os }}-yarn-${{ steps.yarn-version.outputs.YARN_VERSION }}-${{ hashFiles('yarn.lock') }}
       - name: Install dependencies
         run: |
-          echo "$(dirname $(which yarn))" >> $GITHUB_PATH
+          corepack enable
+          corepack prepare yarn@4.3.1 --activate
           yarn --immutable --immutable-cache
       - name: Build
         run: |
-          echo "$(dirname $(which yarn))" >> $GITHUB_PATH
+          corepack enable
+          corepack prepare yarn@4.3.1 --activate
           yarn build
       - name: Lint
         run: |
-          echo "$(dirname $(which yarn))" >> $GITHUB_PATH
+          corepack enable
+          corepack prepare yarn@4.3.1 --activate
           yarn lint
       - name: Test
         run: |
-          echo "$(dirname $(which yarn))" >> $GITHUB_PATH
+          corepack enable
+          corepack prepare yarn@4.3.1 --activate
           yarn test
       - name: Validate RC changelog
         if: ${{ startsWith(github.head_ref, 'release/') }}
         run: |
-          echo "$(dirname $(which yarn))" >> $GITHUB_PATH
+          corepack enable
+          corepack prepare yarn@4.3.1 --activate
           yarn lint:changelog --rc
       - name: Validate changelog
         if: ${{ !startsWith(github.head_ref, 'release/') }}
         run: |
-          echo "$(dirname $(which yarn))" >> $GITHUB_PATH
+          corepack enable
+          corepack prepare yarn@4.3.1 --activate
           yarn lint:changelog
       - name: Require clean working directory
         shell: bash
